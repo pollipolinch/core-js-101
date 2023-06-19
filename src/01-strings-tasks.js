@@ -187,8 +187,10 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  // throw new Error('Not implemented');
+  const sep = str.split(';');
+  return sep;
 }
 
 /**
@@ -214,8 +216,21 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  // throw new Error('Not implemented');
+  const figure = [];
+  for (let r = 0; r < height; r += 1) {
+    figure.push([]);
+    for (let k = 0; k < width; k += 1) {
+      if (r === 0) {
+        if (k === 0) { figure[r].push('┌'); } else if (k === width - 1) { figure[r].push('┐\n'); } else { figure[r].push('─'); }
+      } else if (r === height - 1) {
+        if (k === 0) { figure[r].push('└'); } else if (k === width - 1) { figure[r].push('┘\n'); } else { figure[r].push('─'); }
+      } else if (k === 0) { figure[r].push('│'); } else if (k === width - 1) { figure[r].push('│\n'); } else { figure[r].push(' '); }
+    }
+  }
+  const result = figure.flat().join('');
+  return result;
 }
 
 
@@ -235,8 +250,19 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  // throw new Error('Not implemented');
+  const alph1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !?';
+  const alph2 = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm !?';
+  let newStr = '';
+  for (let i = 0; i < str.length; i += 1) {
+    for (let h = 0; h < alph1.length; h += 1) {
+      if (str[i] === alph1[h]) {
+        newStr += alph2[h];
+      }
+    }
+  }
+  return newStr;
 }
 
 /**
@@ -252,8 +278,12 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  // throw new Error('Not implemented');
+  if (value instanceof String) {
+    return true;
+  }
+  return typeof value === 'string';
 }
 
 
