@@ -37,8 +37,10 @@ function findElement(arr, value) {
  *    2 => [ 1, 3 ]
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  // throw new Error('Not implemented');
+  const newArr = Array.from({ length: len }, (ell, ind) => ind * 2 + 1);
+  return newArr;
 }
 
 
@@ -636,8 +638,10 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  // throw new Error('Not implemented');
+  const newArr = indexes.reduce((ell, ind) => ell[ind], arr);
+  return newArr;
 }
 
 
@@ -659,8 +663,19 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  // throw new Error('Not implemented');
+  let leftSide = [];
+  let rightSide = [];
+  if (arr.length % 2 === 0) {
+    rightSide = arr.filter((_, index) => index >= arr.length / 2);
+    leftSide = arr.filter((_, index) => index < arr.length / 2);
+    return [...rightSide, ...leftSide];
+  }
+  rightSide = arr.filter((_, index) => index > Math.floor(arr.length / 2));
+  leftSide = arr.filter((_, index) => index < Math.floor(arr.length / 2));
+  const newArr = [...rightSide, arr[Math.floor(arr.length / 2)], ...leftSide];
+  return newArr;
 }
 
 
