@@ -124,32 +124,73 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  result: '',
+  arrUsed: [],
+
+  doubleCheck(arr) {
+    const newArrell = arr.filter((i) => i === 0);
+    const idArr = arr.filter((i) => i === 1);
+    const pse = arr.filter((i) => i === 5);
+    if (newArrell.length > 1 || pse.length > 1 || idArr.length > 1) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  findPos(arr) {
+    arr.forEach((ell, i) => {
+      if (ell > arr[i + 1]) {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    });
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  newObj(ell, index) {
+    const addobj = Object.create(this);
+    addobj.arrUsed = this.arrUsed.concat(index);
+    addobj.result = this.result + ell;
+    this.doubleCheck(addobj.arrUsed);
+    this.findPos(addobj.arrUsed);
+    return addobj;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    const res = this.newObj(value, 0);
+    return res;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const res = this.newObj(`#${value}`, 1);
+    return res;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const res = this.newObj(`.${value}`, 2);
+    return res;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const res = this.newObj(`[${value}]`, 3);
+    return res;
+  },
+
+  pseudoClass(value) {
+    const res = this.newObj(`:${value}`, 4);
+    return res;
+  },
+
+  pseudoElement(value) {
+    const res = this.newObj(`::${value}`, 5);
+    return res;
+  },
+
+  combine(selector1, combinator, selector2) {
+    const newObj = Object.create(this);
+    newObj.result = `${selector1.result} ${combinator} ${selector2.result}`;
+    return newObj;
+  },
+
+  stringify() {
+    return this.result;
   },
 };
 
